@@ -23,11 +23,17 @@ ALTER TABLE products DROP COLUMN featured;
 -- DROP TABLE table_name;
 
 CREATE TABLE restaurants (
-  id INT,
-  name VARCHAR(50),
-  location VARCHAR(50),
-  price_range INT
+  id BIGSERIAL NOT NULL PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  location VARCHAR(50) NOT NULL,
+  price_range INT NOT NULL CHECK(price_range >= 1 AND price_range <=5)
 );
 
-INSERT INTO restaurants (id, name, location,price_range)
-VALUES (123, 'mcdonalds', 'new york', 3);
+INSERT INTO restaurants ( name, location, price_range)
+VALUES ('mcdonalds', 'new york', 4);
+
+INSERT INTO restaurants ( name, location, price_range)
+VALUES ('burger king', 'seatle', 3);
+
+INSERT INTO restaurants ( name, location, price_range)
+VALUES ('pizza hut', 'san francisco', 1);
