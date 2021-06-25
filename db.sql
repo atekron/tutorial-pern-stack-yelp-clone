@@ -30,10 +30,10 @@ CREATE TABLE restaurants (
 );
 
 INSERT INTO restaurants ( name, location, price_range)
-VALUES ('mcdonalds', 'new york', 4);
+VALUES ('mcdonalds', 'new york', 4), ('burger king', 'seatle', 3), ('pizza hut', 'san francisco', 1);
 
-INSERT INTO restaurants ( name, location, price_range)
-VALUES ('burger king', 'seatle', 3);
+-- INSERT INTO restaurants ( name, location, price_range)
+-- VALUES ('burger king', 'seatle', 3);
 
-INSERT INTO restaurants ( name, location, price_range)
-VALUES ('pizza hut', 'san francisco', 1);
+-- INSERT INTO restaurants ( name, location, price_range)
+-- VALUES ('pizza hut', 'san francisco', 1);
