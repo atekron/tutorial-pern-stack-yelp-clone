@@ -32,7 +32,7 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
     const results = await db.query("SELECT * FROM restaurants WHERE id = $1", [
       req.params.id,
     ]);
-    res.status(200).json({
+    res.status(201).json({
       status: "success",
       results: results.rows.length,
       data: {
@@ -45,18 +45,61 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
 });
 
 //create a restaurant
-app.post("/api/v1/restaurants", (req, res) => {
-  res.send(req.body);
+app.post("/api/v1/restaurants", async (req, res) => {
+  try {
+    const results = await db.query(
+      "INSERT INTO restaurants (name, location, price_range) VALUES ($1, $2, $3) RETURNING *",
+      [req.body.name, req.body.location, req.body.price_range]
+    );
+    res.status(202).send({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        restaurant: results.rows[0],
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 //updeate restaurant
-app.put("/api/v1/restaurants/:id", (req, res) => {
-  res.send({ ...req.body, ...req.params });
+app.put("/api/v1/restaurants/:id", async (req, res) => {
+  try {
+    const results = await db.query(
+      "UPDATE restaurants SET name = $1, location = $2, price_range = $3 WHERE id = $4 RETURNING *",
+      [req.body.name, req.body.location, req.body.price_range, req.params.id]
+    );
+    res.status(203).send({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        restaurant: results.rows[0],
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
-//delete restaurant
-app.delete("/api/v1/restaurants/:id", (req, res) => {
-  res.send(`restoraunt with ID: ${req.params.id} was removed`);
+delete restaurant
+app.delete("/api/v1/restaurants/:id", async (req, res) => {
+  try {
+    const results = await db.query(
+      "DELETE FROM restaurants WHERE id = $1",
+      [req.params.id]
+    );
+    res.status(204).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        restaurant: results.rows[0],
+      },
+    });
+    res.send("hello");
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 const port = process.env.PORT || 3005;
