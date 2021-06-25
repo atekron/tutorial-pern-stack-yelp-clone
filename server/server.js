@@ -10,18 +10,38 @@ app.use(express.json());
 
 //get all restaurants
 app.get("/api/v1/restaurants", async (req, res) => {
-  const { rows } = await db.query("SELECT * FROM restaurants");
-  res.status(200).json({
-    status: "success",
-    data: {
-      restaurants: rows,
-    },
-  });
+  try {
+    const results = await db.query("SELECT * FROM restaurants");
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        restaurants: results.rows,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 //get a restaurant
-app.get("/api/v1/restaurants/:id", (req, res) => {
-  res.send(req.params.id);
+app.get("/api/v1/restaurants/:id", async (req, res) => {
+  try {
+    // `SELECT * FROM restaurants WHERE id = ${req.params.id}` - never do this!
+    // string templating or concatenation make your db vulnerable
+    const results = await db.query("SELECT * FROM restaurants WHERE id = $1", [
+      req.params.id,
+    ]);
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        restaurant: results.rows[0],
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 //create a restaurant
