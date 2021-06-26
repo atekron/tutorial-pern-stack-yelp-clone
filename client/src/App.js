@@ -6,7 +6,7 @@ import RestaurantUpdate from "./routes/RestaurantUpdate";
 
 function App() {
   return (
-    <div>
+    <div className="container">
       <Router>
         <Switch>
           <Route exact path="/" component={HomePage} />
