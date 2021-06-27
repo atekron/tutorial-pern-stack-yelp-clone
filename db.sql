@@ -22,6 +22,8 @@ ALTER TABLE products DROP COLUMN featured;
 
 -- DROP TABLE table_name;
 
+-- #############################################################################
+
 CREATE TABLE restaurants (
   id BIGSERIAL NOT NULL PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
@@ -37,3 +39,18 @@ VALUES ('mcdonalds', 'new york', 4), ('burger king', 'seatle', 3), ('pizza hut',
 
 -- INSERT INTO restaurants ( name, location, price_range)
 -- VALUES ('pizza hut', 'san francisco', 1);
+
+-- #############################################################################
+
+CREATE TABLE reviews (
+  id BIGSERIAL NOT NULL PRIMARY KEY,
+  restaurant_id BIGINT NOT NULL REFERENCES restaurants(id),
+  name VARCHAR(50) NOT NULL,
+  review TEXT NOT NULL,
+  rating INT NOT NULL CHECK(rating >= 1 AND rating <=5)
+);
+
+INSERT INTO reviews (name, review, rating)
+VALUES ('Alynosa', 'not bad food', 3),
+('Arilen', 'just an awesome place!', 5),
+('Victor Newton', 'I had eat in worse places, but not often', 1);

@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { RestaurantsContext } from "../context/RestaurantsContext";
+import RestaurantFinder from "../apis/RestaurantFinder";
 
 const RestaurantDetailsPage = () => {
-  return <div>Details</div>;
+  const { id } = useParams();
+  const { selectedRestaurant, setSelectedRestaurant } =
+    useContext(RestaurantsContext);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await RestaurantFinder.get(`/${id}`);
+        setSelectedRestaurant(response.data.data.restaurant);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [id, setSelectedRestaurant]);
+
+  return <div>{selectedRestaurant && selectedRestaurant.name}</div>;
 };
 
 export default RestaurantDetailsPage;
