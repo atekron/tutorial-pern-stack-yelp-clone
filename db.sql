@@ -51,6 +51,6 @@ CREATE TABLE reviews (
 );
 
 INSERT INTO reviews (name, restaurant_id, review, rating)
-VALUES ('Alynosa', 28, 'not bad food', 3),
-('Arilen', 25, 'just an awesome place!', 5),
-('Victor Newton', 24, 'I had eat in worse places, but not often', 1);
+VALUES ('Alynosa', 25, 'not bad food', 3),
+('Arilen', 28, 'just an awesome place!', 5),
+('Victor Newton', 28, 'I had eat in worse places, but not often', 1);

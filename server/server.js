@@ -7,7 +7,7 @@ const db = require("./db");
 const app = express();
 
 app.use(morgan("dev"));
-app.use(cors())
+app.use(cors());
 app.use(express.json());
 
 //get all restaurants
@@ -31,14 +31,22 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
   try {
     // `SELECT * FROM restaurants WHERE id = ${req.params.id}` - never do this!
     // string templating or concatenation make your db vulnerable
-    const results = await db.query("SELECT * FROM restaurants WHERE id = $1", [
-      req.params.id,
-    ]);
+    const restaurant = await db.query(
+      "SELECT * FROM restaurants WHERE id = $1",
+      [req.params.id]
+    );
+
+    const reviews = await db.query(
+      "SELECT * FROM reviews WHERE restaurant_id = $1",
+      [req.params.id]
+    );
+
     res.status(201).json({
       status: "success",
-      results: results.rows.length,
+      // results: restaurant.rows.length,
       data: {
-        restaurant: results.rows[0],
+        restaurant: restaurant.rows[0],
+        reviews: reviews.rows,
       },
     });
   } catch (error) {
@@ -84,13 +92,12 @@ app.put("/api/v1/restaurants/:id", async (req, res) => {
   }
 });
 
-delete restaurant
+//delete restaurant
 app.delete("/api/v1/restaurants/:id", async (req, res) => {
   try {
-    const results = await db.query(
-      "DELETE FROM restaurants WHERE id = $1",
-      [req.params.id]
-    );
+    const results = await db.query("DELETE FROM restaurants WHERE id = $1", [
+      req.params.id,
+    ]);
     res.status(204).json({
       status: "success",
       results: results.rows.length,
@@ -99,6 +106,23 @@ app.delete("/api/v1/restaurants/:id", async (req, res) => {
       },
     });
     res.send("hello");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.post("/api/v1/restaurants/:id/addReview", async (req, res) => {
+  try {
+    const results = await db.query(
+      "INSERT INTO reviews (name, rating, review, restaurant_id) VALUES ($1, $2, $3, $4) RETURNING *",
+      [req.body.name, req.body.rating, req.body.review, req.params.id]
+    );
+    res.status(202).send({
+      status: "success",
+      data: {
+        review: results.rows[0],
+      },
+    });
   } catch (error) {
     console.log(error);
   }
