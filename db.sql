@@ -50,7 +50,7 @@ CREATE TABLE reviews (
   rating INT NOT NULL CHECK(rating >= 1 AND rating <=5)
 );
 
-INSERT INTO reviews (name, review, rating)
-VALUES ('Alynosa', 'not bad food', 3),
-('Arilen', 'just an awesome place!', 5),
-('Victor Newton', 'I had eat in worse places, but not often', 1);
+INSERT INTO reviews (name, restaurant_id, review, rating)
+VALUES ('Alynosa', 28, 'not bad food', 3),
+('Arilen', 25, 'just an awesome place!', 5),
+('Victor Newton', 24, 'I had eat in worse places, but not often', 1);
