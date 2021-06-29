@@ -1,6 +1,6 @@
 import React from "react";
 
-const StarRating = ({ rating }) => {
+const StarRating = ({ rating, quantity }) => {
   const stars = [];
   for (let i = 1; i <= 5; i++) {
     if (i <= rating) {
@@ -13,11 +13,12 @@ const StarRating = ({ rating }) => {
   }
   return (
     <>
-      <p className="text-warning">
+      <span className="text-warning">
         {stars.map((star, i) => (
           <span key={i}>{star}</span>
         ))}
-      </p>
+        <span className="fw-bold fs-5">{quantity ? ` (${quantity})` : ""}</span>
+      </span>
     </>
   );
 };

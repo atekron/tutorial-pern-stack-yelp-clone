@@ -29,13 +29,15 @@ const RestaurantDetailsPage = () => {
       {selectedRestaurant && (
         <>
           <Header text={selectedRestaurant.restaurant.name} />
-          <div className="text-center">
+
+          <div className="text-center text-warning">
             <StarRating
               rating={
                 selectedRestaurant.reviews.reduce((acc, review) => {
                   return acc + review.rating;
                 }, 0) / selectedRestaurant.reviews.length
               }
+              quantity={selectedRestaurant.reviews.length}
             />
           </div>
 
