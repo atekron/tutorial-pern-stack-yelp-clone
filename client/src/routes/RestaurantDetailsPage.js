@@ -32,12 +32,8 @@ const RestaurantDetailsPage = () => {
 
           <div className="text-center text-warning">
             <StarRating
-              rating={
-                selectedRestaurant.reviews.reduce((acc, review) => {
-                  return acc + review.rating;
-                }, 0) / selectedRestaurant.reviews.length
-              }
-              quantity={selectedRestaurant.reviews.length}
+              rating={selectedRestaurant.restaurant.average_rating}
+              quantity={selectedRestaurant.restaurant.count}
             />
           </div>
 
